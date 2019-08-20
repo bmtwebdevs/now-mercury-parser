@@ -10,11 +10,13 @@ module.exports = async function (req, res) {
         if (!isValidUrl(pathUrl)) {
             res.statusCode = 400;
             res.setHeader('Content-Type', 'text/html');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             res.end(`<h1>Bad Request</h1><p>The url <em>${pathUrl}</em> is not valid.</p>`);
         } else {
             await Mercury.parse(pathUrl).then(result => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Access-Control-Allow-Origin', '*');
                 res.end(JSON.stringify(result));
             });
 
@@ -22,6 +24,7 @@ module.exports = async function (req, res) {
     } catch (e) {
         res.statusCode = 500;
         res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.end('<h1>Server Error</h1><p>Sorry, there was a problem</p>');
         console.error(e.message);
     }
